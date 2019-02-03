@@ -176,27 +176,23 @@ public class CritterModel {
         Object[] list = info.keySet().toArray();
         Collections.shuffle(Arrays.asList(list));
 
-        // This keeps track of critters that are locked and cannot be 
-        // infected this turn. The happens when: 
-        // * a Critter is infected
-        // * a Critter hops
+        // Pitää oliot lukittuina?? 
         Set<Critter> locked = new HashSet<Critter>();
         
         for (int i = 0; i < list.length; i++) {
             Critter next = (Critter)list[i];
             PrivateData data = info.get(next);
             if (data == null) {
-                // happens when creature was infected earlier in this round
+                // tapahtuu kun olio infektoitunut aiemmin
                 continue;
             }
-            // clear any prior setting for having hopped in the past
             boolean hadHopped = data.justHopped;
             data.justHopped = false;
             Point p = data.p;
             Point p2 = pointAt(p, data.direction);
 
             
-            // try to perform the critter's action
+            
             Critter.Action move = next.getMove(getInfo(data, next.getClass()));
             if (move == Critter.Action.LEFT)
                 data.direction = rotate(rotate(rotate(data.direction)));
@@ -207,10 +203,10 @@ public class CritterModel {
                     grid[p2.x][p2.y] = grid[p.x][p.y];
                     grid[p.x][p.y] = null;
                     data.p = p2;
-                    locked.add(next); //successful hop locks a critter from
-                                      // being infected for the rest of the
-                                      // turn
-                    data.justHopped = true;  // remember a successful hop
+                    locked.add(next); 
+                                      
+                                      
+                    data.justHopped = true;  
                 }
             } else if (move == Critter.Action.INFECT) {
                 if (inBounds(p2) && grid[p2.x][p2.y] != null
@@ -229,15 +225,15 @@ public class CritterModel {
                     // and add a new one to the grid
                     try {
                         grid[p2.x][p2.y] = makeCritter(next.getClass());
-                        // This critter has been infected and is now locked
-                        // for the rest of this turn
+                        
+                        
                         locked.add(grid[p2.x][p2.y]);
                     } catch (Exception e) {
                         throw new RuntimeException("" + e);
                     }
-                    // and add to the map
+                    
                     info.put(grid[p2.x][p2.y], oldData);
-                    // but it's new, so it didn't just hop
+                    
                     oldData.justHopped = false;
                 }
             }
@@ -245,9 +241,8 @@ public class CritterModel {
         updateColorString();
     }
 
-    // calling this method causes each critter to update the stored color and
-    // text for toString; should be called each time update is performed and
-    // once before the simulation begins
+    // metodin kutsu aiheuttaa olioiden päivittäminen talletettuun väriin ja tekstiin toString
+    
     public void updateColorString() {
         for (Critter next : info.keySet()) {
             info.get(next).color = next.getColor();
@@ -280,7 +275,7 @@ public class CritterModel {
         }
     }
 
-    // an object used to query a critter's state (neighbors, direction)
+    
     private static class Info implements CritterInfo {
         private Critter.Neighbor[] neighbors;
         private Critter.Direction direction;
