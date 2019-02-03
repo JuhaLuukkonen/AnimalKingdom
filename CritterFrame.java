@@ -1,5 +1,4 @@
-// Class CritterFrame provides the user interface for a simple simulation
-// program.
+// Class CritterFrame tarjoaa käyttöliittymän yksinkertaiselle simulaatioohjelmalle
 
 import javax.swing.*;
 import java.awt.*;
