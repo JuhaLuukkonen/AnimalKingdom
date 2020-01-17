@@ -1,3 +1,5 @@
 # AnimalKingdom
 
-Harjoitustyö: Juha Luukkonen(editor), edX.org:n projektityö, jossa lisätään simulaation oliot. Ohjelmarunko muuten annetaan valmiina. Ohjelma käynnistyy ajamalla tiedosto: CritterMain.java.
+Authot: Juha Luukkonen
+
+Download target folder and run CritterMain.java file at IDE environment.
